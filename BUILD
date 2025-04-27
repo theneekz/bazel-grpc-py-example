@@ -9,6 +9,7 @@ proto_library(
 
 python_grpc_library(
     name = "lobby_service_python_grpc_lib",
+    generate_pyi = True,
     protos = ["lobby_service_proto"],
 )
 
