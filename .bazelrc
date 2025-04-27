@@ -1,0 +1,5 @@
+# Enable Bzlmod for every Bazel command
+common --enable_bzlmod
+
+# https://github.com/rules-proto-grpc/rules_proto_grpc/issues/390
+build --noincompatible_disallow_ctx_resolve_tools

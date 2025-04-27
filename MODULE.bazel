@@ -1,0 +1,19 @@
+"""
+This module defines Bazel dependencies for the project.
+"""
+bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "rules_proto_grpc_python", version = "5.0.1")
+bazel_dep(name = "rules_python", version = "1.3.0")
+
+# The rules_proto_grpc_python packagage locks the runtime version of protobuf
+# below what is built with using my global version of protoc. Here I am
+# pinning protoc to the lower version required to match the
+# rules_proto_grpc_python protobuf version.
+bazel_dep(name = "toolchains_protoc", version = "0.3.7")
+protoc = use_extension("@toolchains_protoc//protoc:extensions.bzl", "protoc")
+protoc.toolchain(
+    google_protobuf = "com_google_protobuf",
+    version = "v27.2",
+)
+use_repo(protoc, "com_google_protobuf", "toolchains_protoc_hub")
+register_toolchains("@toolchains_protoc_hub//:all")

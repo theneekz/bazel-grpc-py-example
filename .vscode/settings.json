@@ -1,0 +1,6 @@
+{
+  "python.analysis.extraPaths": [
+    "./bazel-bin/lobby_service_python_grpc_lib_pb",
+  ],
+  "dotnet.defaultSolution": "disable"
+}
