@@ -1,0 +1,35 @@
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+package(default_visibility = ["//visibility:public"])
+
+npm_link_all_packages(name = "npm")
+
+js_library(
+    name = "react_lib",
+    srcs = glob(["src/**/*.js", "src/**/*.jsx"]),
+    package_json = "//:package.json",
+    deps = [
+        "@npm//react",
+        "@npm//react-dom",
+    ],
+)
+
+nodejs_binary(
+    name = "devserver",
+    entry_point = "src/index.js",
+    data = [":react_lib", "public"],
+    templated_args = [
+      "--port=8080",
+    ],
+    node_modules = "npm/node_modules",
+    node_modules_root = "npm/node_modules",
+    args = ["--dev"],
+)
+
+filegroup(
+    name = "public",
+    srcs = glob(["public/**/*"]),
+    path = "public",
+)
